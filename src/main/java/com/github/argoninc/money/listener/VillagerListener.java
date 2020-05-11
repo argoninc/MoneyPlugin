@@ -17,6 +17,8 @@ import com.github.argoninc.money.command.Cooldown;
 import com.github.argoninc.money.finance.Transations;
 import com.github.argoninc.money.inventory.Banco;
 import com.github.argoninc.money.inventory.Quantidade;
+import com.github.argoninc.money.inventory.ShopInventory;
+import com.github.argoninc.money.shop.ShopUtils;
 
 public class VillagerListener implements Listener {
 	public static ArrayList<Cooldown> cd = null;
@@ -48,6 +50,16 @@ public class VillagerListener implements Listener {
 					Inventory banco = new Banco(player).getInventory();
 					openInventory(player, banco);
 				}
+				
+				//SHOP
+				
+				if (entity.getType().equals(EntityType.VILLAGER) && ShopUtils.isShop(entityUUID)) {
+					e.setCancelled(true);
+					
+					Inventory shopInventory = new ShopInventory(ShopUtils.getShop(entityUUID),player).getInventory();
+					openInventory(player, shopInventory);
+				}
+				
 			}
 		}
 

@@ -27,7 +27,7 @@ public class Banco {
 		ItemStack depositar = new ItemStack(Material.GREEN_CONCRETE, 1);
 		banco.setItem(6, ItemStackUtils.rename(depositar, ChatColor.GREEN + "Depositar"));
 		
-		InventoryUtils.autoFill(banco, ItemStackUtils.rename(new ItemStack(Material.IRON_BARS, 1), "-"));
+		banco = InventoryUtils.autoFill(banco, ItemStackUtils.rename(new ItemStack(Material.IRON_BARS, 1), "-"));
 	}
 	
 	public Inventory getInventory() {

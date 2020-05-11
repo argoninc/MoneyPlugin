@@ -4,11 +4,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryUtils {
-	public static void autoFill(Inventory inv, ItemStack itemStack) {
-		for (ItemStack item : inv) {
-			if(item==null) {
-				item = itemStack;
+	public static Inventory autoFill(Inventory banco, ItemStack itemStack) {
+		Inventory retorno = banco;
+		
+		ItemStack[] arr = retorno.getContents();
+		
+		for (int i = 0; i < arr.length; i++) {
+			if(arr[i]==null) {
+				retorno.setItem(i, itemStack);
 			}
 		}
+		
+		return retorno;
 	}
 }
