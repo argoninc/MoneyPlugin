@@ -7,12 +7,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
+import org.bukkit.entity.Villager.Type;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+
 import com.github.argoninc.money.Principal;
 import com.github.argoninc.money.command.Cooldown;
 import com.github.argoninc.money.finance.Transations;
@@ -63,11 +65,22 @@ public class VillagerListener implements Listener {
 					villager.setVillagerLevel(5);
 					villager.setProfession(Profession.valueOf(s.getPermissionKey()));
 					villager.setRecipes(ShopInventory.getRecipes(s, true));
+					if(s.getName()!=null) {
+						villager.setCustomName(s.getName());
+						villager.setCustomNameVisible(true);
+					}
+					
+					if(s.getType()!=null) {
+						villager.setVillagerType(Villager.Type.valueOf(s.getType()));
+					}
 					
 					
 				}else if(entity.getType().equals(EntityType.VILLAGER)){
 					Villager villager = (Villager) entity;
 					villager.setProfession(Profession.NONE);
+					villager.setCustomNameVisible(false);
+					villager.setVillagerType(Villager.Type.PLAINS);
+					e.setCancelled(true);
 				}
 				
 			}

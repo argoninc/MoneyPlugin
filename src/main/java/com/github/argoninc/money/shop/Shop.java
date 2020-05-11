@@ -5,12 +5,14 @@ public class Shop {
 	private Item[] itens;
 	private String permissionKey;
 	private String name;
+	private String type;
 	
-	public Shop(String uuid, Item[] itens, String permissionKey, String name) {
+	public Shop(String uuid, Item[] itens, String permissionKey, String name, String type) {
 		this.uuid = uuid;
 		this.itens = itens;
 		this.permissionKey = permissionKey;
 		this.name = name;
+		this.type = type;
 	}
 	
 	public String getUuid() {
@@ -19,6 +21,10 @@ public class Shop {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	public Item[] getItens() {
 		return itens;

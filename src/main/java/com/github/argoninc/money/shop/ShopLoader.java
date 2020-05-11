@@ -20,6 +20,7 @@ public class ShopLoader {
 			Shop s = null;
 			
 			String name = null;
+			String type = null;
 			String uuid = null;
 			String permissionKey = null;
 			Item[] itens = null;
@@ -28,6 +29,7 @@ public class ShopLoader {
 			
 			uuid = (String) getHas(json, "uuid");
 			name = (String) getHas(json, "name");
+			type = (String) getHas(json, "type");
 			permissionKey = (String) getHas(json, "permissionKey");
 			
 			ArrayList<Item> itemArray = new ArrayList<Item>();
@@ -84,7 +86,7 @@ public class ShopLoader {
 			
 			itens = itemArray.toArray(new Item[0]);
 			
-			s = new Shop(uuid, itens, permissionKey, name);
+			s = new Shop(uuid, itens, permissionKey, name, type);
 			
 			shops.add(s);
 			
