@@ -25,10 +25,7 @@ public class ShopUtils {
 	public static void debug(Shop s) {
 			System.out.println("----");
 			System.out.println("UUID: "+s.getUuid());
-			System.out.println("permissionKey: "+s.getPermissionKey());
-			System.out.println("prices: ");
-
-			
+			System.out.println("permissionKey: "+s.getPermissionKey());			
 			System.out.println("itens: ");
 			
 			if(s.getItens()==null) {
@@ -42,21 +39,11 @@ public class ShopUtils {
 					System.out.println("price: "+s.getItens()[i].getPrice());
 					System.out.println("enchantments: ");
 					
-					if(s.getItens()[i].getEnchantments()==null) {
+					if(s.getItens()[i].getEnchants()==null) {
 						System.out.println("null");
 					}else {
-						for (int j = 0; j < s.getItens()[i].getEnchantments().length; j++) {
-							System.out.println("["+i+"] "+s.getItens()[i].getEnchantments()[j]);
-						}
-					}
-					
-					System.out.println("levels: ");
-					
-					if(s.getItens()[i].getLevels()==null) {
-						System.out.println("null");
-					}else {
-						for (int j = 0; j < s.getItens()[i].getLevels().length; j++) {
-							System.out.println("["+i+"] "+s.getItens()[i].getLevels()[j]);
+						for (int j = 0; j < s.getItens()[i].getEnchants().length; j++) {
+							System.out.println("["+j+"] "+s.getItens()[i].getEnchants()[j].getKey()+" "+s.getItens()[i].getEnchants()[j].getLevel());
 						}
 					}
 				}

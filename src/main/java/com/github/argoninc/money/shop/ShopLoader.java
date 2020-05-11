@@ -43,7 +43,7 @@ public class ShopLoader {
 				int price = 0;
 				boolean buy = false;
 				
-				String[] enchantments = null;
+				Enchant[] enchants = null;
 				int[] levels = null;
 				
 				JSONObject temp2 = (JSONObject) it.next();
@@ -54,10 +54,23 @@ public class ShopLoader {
 				name = (String) getHas(temp2, "name");
 				buy = (boolean) getHas(temp2, "buy");
 				
-				enchantments = getArrayString(temp2, "enchantments");
+				ArrayList<Enchant> enchantsList = new ArrayList<Enchant>();
+				
+				JSONArray temp3 = (JSONArray) getHas(temp2, "enchants");
+				if(temp3!=null) {
+					Iterator<Object> ite = temp3.iterator();
+					
+					while(ite.hasNext()) {
+						JSONObject jso = (JSONObject) ite.next();
+						enchantsList.add(new Enchant(jso.getString("key"),jso.getInt("level")));
+					}
+					
+					enchants = enchantsList.toArray(new Enchant[0]);
+				}
+				
 				levels = convert(getArrayInt(temp2, "levels"));
 				
-				item = new Item(material, amount, enchantments, levels, name, price, buy);
+				item = new Item(material, amount, enchants, name, price, buy);
 				
 				itemArray.add(item);
 			}

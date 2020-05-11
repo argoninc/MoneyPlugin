@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.argoninc.money.shop.Item;
 import com.github.argoninc.money.shop.Shop;
+import com.github.argoninc.money.shop.ShopUtils;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -18,6 +19,7 @@ public class ShopInventory {
 		
 		iv = Bukkit.createInventory(null, size(s.getItens().length), "SHOP");
 		
+		//ShopUtils.debug(s);
 		
 		for (Item i : s.getItens()) {
 			ItemStack is = i.getItemStack();

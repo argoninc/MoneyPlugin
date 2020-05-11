@@ -11,8 +11,7 @@ public class Item {
 	private boolean buy;
 	private String material;
 	private int amount;
-	private String[] enchantments;
-	private int[] levels;
+	private Enchant[] enchants;
 	private int price;
 	private String name;
 	
@@ -53,26 +52,14 @@ public class Item {
 
 
 
-	public String[] getEnchantments() {
-		return enchantments;
+	public Enchant[] getEnchants() {
+		return enchants;
 	}
 
 
 
-	public void setEnchantments(String[] enchantments) {
-		this.enchantments = enchantments;
-	}
-
-
-
-	public int[] getLevels() {
-		return levels;
-	}
-
-
-
-	public void setLevels(int[] levels) {
-		this.levels = levels;
+	public void setEnchants(Enchant[] enchants) {
+		this.enchants = enchants;
 	}
 
 
@@ -89,11 +76,10 @@ public class Item {
 
 
 
-	public Item(String material, int amount, String[] enchantments, int[] levels, String name, int price, boolean buy) {
+	public Item(String material, int amount, Enchant[] enchants, String name, int price, boolean buy) {
 		this.material = material;
 		this.amount = amount;
-		this.enchantments = enchantments;
-		this.levels = levels;
+		this.enchants = enchants;
 		this.name = name;
 		this.price = price;
 		this.buy = buy;
@@ -106,10 +92,10 @@ public class Item {
 			im.setDisplayName(name);
 		}
 		
-		if(enchantments!=null) {
-			for (int j = 0; j < enchantments.length; j++) {
-				Enchantment enchantment = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantments[j]));
-				im.addEnchant(enchantment, levels[j], false);
+		if(enchants!=null) {
+			for (int j = 0; j < enchants.length; j++) {
+				Enchantment enchantment = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchants[j].getKey()));
+				im.addEnchant(enchantment, enchants[j].getLevel(), false);
 			}
 		}
 		
