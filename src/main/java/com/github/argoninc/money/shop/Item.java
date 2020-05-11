@@ -11,9 +11,11 @@ public class Item {
 	private boolean buy;
 	private String material;
 	private int amount;
+	private int amount_bonus;
 	private Enchant[] enchants;
 	private int price;
-	private String name;
+	private int price_bonus;
+	private String custom_name;
 	
 	private ItemStack is;
 	
@@ -29,67 +31,47 @@ public class Item {
 	public int getPrice() {
 		return price;
 	}
+	
+	public int getPriceBonus() {
+		return price_bonus;
+	}
 
 	public ItemStack getItemStack() {
 		return is;
 	}
 
-	public void setMaterial(String material) {
-		this.material = material;
-	}
-
-
-
 	public int getAmount() {
 		return amount;
 	}
 
-
-
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public int getAmountBonus() {
+		return amount_bonus;
 	}
-
-
-
+	
 	public Enchant[] getEnchants() {
 		return enchants;
 	}
 
-
-
-	public void setEnchants(Enchant[] enchants) {
-		this.enchants = enchants;
+	public String getCustomName() {
+		return custom_name;
 	}
-
-
-
-	public String getName() {
-		return name;
-	}
-
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-
-	public Item(String material, int amount, Enchant[] enchants, String name, int price, boolean buy) {
+	
+	public Item(String material, int amount, Enchant[] enchants, String custom_name, int price, boolean buy, int price_bonus, int amount_bonus) {
 		this.material = material;
 		this.amount = amount;
 		this.enchants = enchants;
-		this.name = name;
+		this.custom_name = custom_name;
 		this.price = price;
 		this.buy = buy;
+		this.price_bonus = price_bonus;
+		this.amount_bonus = amount_bonus;
 		
 		ItemStack i = new ItemStack(Material.getMaterial(material), amount);
 		
 		ItemMeta im = i.getItemMeta();
 		
-		if(name!=null) {
-			im.setDisplayName(name);
+		if(custom_name!=null) {
+			im.setDisplayName(custom_name);
 		}
 		
 		if(enchants!=null) {

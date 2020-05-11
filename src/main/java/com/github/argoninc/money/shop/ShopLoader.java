@@ -19,7 +19,7 @@ public class ShopLoader {
 		while(i.hasNext()) {
 			Shop s = null;
 			
-			
+			String name = null;
 			String uuid = null;
 			String permissionKey = null;
 			Item[] itens = null;
@@ -27,6 +27,7 @@ public class ShopLoader {
 			JSONObject json = (JSONObject) i.next();
 			
 			uuid = (String) getHas(json, "uuid");
+			name = (String) getHas(json, "name");
 			permissionKey = (String) getHas(json, "permissionKey");
 			
 			ArrayList<Item> itemArray = new ArrayList<Item>();
@@ -39,9 +40,13 @@ public class ShopLoader {
 				
 				String material = null;
 				int amount = 1;
-				String name = null;
 				int price = 0;
 				boolean buy = false;
+				
+				String custom_name = null;
+				
+				int price_bonus = 0;
+				int amount_bonus = 0;
 				
 				Enchant[] enchants = null;
 				int[] levels = null;
@@ -49,9 +54,11 @@ public class ShopLoader {
 				JSONObject temp2 = (JSONObject) it.next();
 				
 				material = (String) getHas(temp2, "material");
-				amount = (int) getHas(temp2, "amount");
-				price = (int) getHas(temp2, "price");
-				name = (String) getHas(temp2, "name");
+				amount = getHasInt(temp2, "amount");
+				price = getHasInt(temp2, "price");
+				price_bonus = getHasInt(temp2, "price_bonus");
+				amount_bonus = getHasInt(temp2, "amount_bonus");
+				custom_name = (String) getHas(temp2, "name");
 				buy = (boolean) getHas(temp2, "buy");
 				
 				ArrayList<Enchant> enchantsList = new ArrayList<Enchant>();
@@ -70,14 +77,14 @@ public class ShopLoader {
 				
 				levels = convert(getArrayInt(temp2, "levels"));
 				
-				item = new Item(material, amount, enchants, name, price, buy);
+				item = new Item(material, amount, enchants, custom_name, price, buy, price_bonus, amount_bonus);
 				
 				itemArray.add(item);
 			}
 			
 			itens = itemArray.toArray(new Item[0]);
 			
-			s = new Shop(uuid, itens, permissionKey);
+			s = new Shop(uuid, itens, permissionKey, name);
 			
 			shops.add(s);
 			
@@ -86,6 +93,13 @@ public class ShopLoader {
 		return shops.toArray(new Shop[0]);
 	}
 	
+	private static int getHasInt(JSONObject json, String key) {
+		if(json.has(key)) {
+			return (int) json.get(key);
+		}
+		return 0;
+	}
+
 	private static String[] getArrayString(JSONObject json, String string) {
 		ArrayList<String> arr = new ArrayList<String>();
 		

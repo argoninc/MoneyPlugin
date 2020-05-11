@@ -4,30 +4,27 @@ public class Shop {
 	private String uuid;
 	private Item[] itens;
 	private String permissionKey;
+	private String name;
 	
-	public Shop(String uuid, Item[] itens, String permissionKey) {
+	public Shop(String uuid, Item[] itens, String permissionKey, String name) {
 		this.uuid = uuid;
 		this.itens = itens;
 		this.permissionKey = permissionKey;
+		this.name = name;
 	}
 	
 	public String getUuid() {
 		return uuid;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	
+	public String getName() {
+		return name;
 	}
 	public Item[] getItens() {
 		return itens;
 	}
-	public void setItens(Item[] itens) {
-		this.itens = itens;
-	}
 	public String getPermissionKey() {
 		return permissionKey;
-	}
-	public void setPermissionKey(String permissionKey) {
-		this.permissionKey = permissionKey;
 	}
 
 }

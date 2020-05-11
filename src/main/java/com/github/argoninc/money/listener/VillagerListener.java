@@ -5,19 +5,21 @@ import java.util.ArrayList;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
-
 import com.github.argoninc.money.Principal;
 import com.github.argoninc.money.command.Cooldown;
 import com.github.argoninc.money.finance.Transations;
 import com.github.argoninc.money.inventory.Banco;
 import com.github.argoninc.money.inventory.Quantidade;
 import com.github.argoninc.money.inventory.ShopInventory;
+import com.github.argoninc.money.shop.Shop;
 import com.github.argoninc.money.shop.ShopUtils;
 
 public class VillagerListener implements Listener {
@@ -49,15 +51,23 @@ public class VillagerListener implements Listener {
 					
 					Inventory banco = new Banco(player).getInventory();
 					openInventory(player, banco);
-				}
-				
-				//SHOP
-				
-				if (entity.getType().equals(EntityType.VILLAGER) && ShopUtils.isShop(entityUUID)) {
-					e.setCancelled(true);
+				}else if (entity.getType().equals(EntityType.VILLAGER) && ShopUtils.isShop(entityUUID)) {
 					
-					Inventory shopInventory = new ShopInventory(ShopUtils.getShop(entityUUID),player).getInventory();
-					openInventory(player, shopInventory);
+					Villager villager = (Villager) entity;
+					
+					Shop s = ShopUtils.getShop(entityUUID);
+					
+					villager.setAdult();
+					villager.setBreed(false);
+					villager.setInvulnerable(true);
+					villager.setVillagerLevel(5);
+					villager.setProfession(Profession.valueOf(s.getPermissionKey()));
+					villager.setRecipes(ShopInventory.getRecipes(s, true));
+					
+					
+				}else if(entity.getType().equals(EntityType.VILLAGER)){
+					Villager villager = (Villager) entity;
+					villager.setProfession(Profession.NONE);
 				}
 				
 			}

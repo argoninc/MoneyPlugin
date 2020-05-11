@@ -35,8 +35,10 @@ public class ShopUtils {
 					System.out.println("["+i+"] ---- ");
 					System.out.println("material: "+s.getItens()[i].getMaterial());
 					System.out.println("amount: "+s.getItens()[i].getAmount());
-					System.out.println("name: "+s.getItens()[i].getName());
+					System.out.println("name: "+s.getItens()[i].getCustomName());
 					System.out.println("price: "+s.getItens()[i].getPrice());
+					System.out.println("amount_bonus: "+s.getItens()[i].getAmountBonus());
+					System.out.println("price_bonus: "+s.getItens()[i].getPriceBonus());
 					System.out.println("enchantments: ");
 					
 					if(s.getItens()[i].getEnchants()==null) {
