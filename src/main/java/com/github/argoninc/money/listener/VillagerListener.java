@@ -51,6 +51,12 @@ public class VillagerListener implements Listener {
 				if (entity.getType().equals(EntityType.VILLAGER) && entityUUID.equals(banqueiro)) {
 					e.setCancelled(true);
 					
+					Villager villager = (Villager) entity;
+					villager.setCustomName("Jeremias");
+					villager.setCustomNameVisible(true);
+					villager.setVillagerType(Villager.Type.TAIGA);
+					villager.setAI(false);
+					
 					Inventory banco = new Banco(player).getInventory();
 					openInventory(player, banco);
 				}else if (entity.getType().equals(EntityType.VILLAGER) && ShopUtils.isShop(entityUUID)) {
@@ -65,6 +71,7 @@ public class VillagerListener implements Listener {
 					villager.setVillagerLevel(5);
 					villager.setProfession(Profession.valueOf(s.getPermissionKey()));
 					villager.setRecipes(ShopInventory.getRecipes(s, true));
+					villager.setAI(false);
 					if(s.getName()!=null) {
 						villager.setCustomName(s.getName());
 						villager.setCustomNameVisible(true);
@@ -78,8 +85,10 @@ public class VillagerListener implements Listener {
 				}else if(entity.getType().equals(EntityType.VILLAGER)){
 					Villager villager = (Villager) entity;
 					villager.setProfession(Profession.NONE);
+					villager.setCustomName(null);
 					villager.setCustomNameVisible(false);
 					villager.setVillagerType(Villager.Type.PLAINS);
+					villager.setAI(true);
 					e.setCancelled(true);
 				}
 				
