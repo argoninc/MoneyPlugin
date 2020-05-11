@@ -89,7 +89,7 @@ public class Transations {
 			int valorASacar = getSaldoPlayer(uuid);
 			
 			//Zera a conta do player
-			Principal.banco.set(uuid, 0);
+			debit(player, getSaldoPlayer(uuid));
 			
 			//Mostra a mensagem de sucesso
 			player.sendMessage(ChatColor.GREEN + "Voce sacou " + valorASacar + " esmeralda"+plural(valorASacar)+"!");
@@ -107,11 +107,8 @@ public class Transations {
 			//valor a sacar será o tanto de slots disponiveis
 			int valorASacar = slotsDisponiveis;
 			
-			//saldo é o saldo antigo - o valor a sacar
-			int saldo = getSaldoPlayer(uuid) - valorASacar;
-			
 			//Set o saldo do banco
-			Principal.banco.set(uuid, saldo);
+			debit(player, valorASacar);
 			
 			//mensagem de sucesso
 			player.sendMessage(ChatColor.GREEN + "Voce sacou " + valorASacar + " esmeralda"+plural(valorASacar)+"!");
@@ -127,53 +124,72 @@ public class Transations {
 	private static void depositar(Player player) {
 		String uuid = player.getUniqueId().toString();
 		
-		//
+		//quantidade de esmeraldas disponiveis no inventario
 		int quantidadeEsmeraldas = count(player.getInventory().getContents(), Material.EMERALD);
+		
+		//remove todas do inventario
 		remove(player, Material.EMERALD, -1);
-		Principal.banco.set(uuid, ((int) Principal.banco.get(uuid) + quantidadeEsmeraldas));
+		
+		//define o saldo com base nas esmeraldas removidas
+		credit(player, quantidadeEsmeraldas);
+		
+		//mensagem de sucesso
 		player.sendMessage(
-				ChatColor.GREEN + "Voce depositou todas suas esmeraldas! (" + quantidadeEsmeraldas + ")");
-		player.sendMessage(ChatColor.GREEN + "Saldo: " + Principal.banco.get(uuid) + " esmeraldas.");
+				ChatColor.GREEN + "Voce depositou todas suas esmeralda"+plural(quantidadeEsmeraldas)+"! (" + quantidadeEsmeraldas + ")");
+		
+		mostrarSaldo(player, uuid);
 	}
 	
 	private static void depositar(Player player, int value) {
 		String uuid = player.getUniqueId().toString();
+		
+		//quantidade de esmeraldas disponiveis no inventario
 		int quantidadeEsmeraldas = count(player.getInventory().getContents(), Material.EMERALD);
-
+		
+		//se a quantidade de esmeraldas no inventario for menor que o valor de deposito: erro
 		if (quantidadeEsmeraldas < value) {
 			player.sendMessage(ChatColor.RED + "Voce nao tem essa quantia.");
+			
+		//caso de certo
 		} else {
+			
+			//remove a quantidade do inventario
 			remove(player, Material.EMERALD, value);
-			Principal.banco.set(uuid, ((int) Principal.banco.get(uuid) + value));
-
-			String plural = "";
-			if (value > 1) {
-				plural += "s";
-			}
-			player.sendMessage(ChatColor.GREEN + "Voce depositou " + value + " esmeralda" + plural + "!");
-			player.sendMessage(ChatColor.GREEN + "Saldo: " + Principal.banco.get(uuid) + " esmeraldas.");
+			
+			//credita o depositado ao saldo
+			credit(player, value);
+			
+			//sucesso
+			player.sendMessage(ChatColor.GREEN + "Voce depositou " + value + " esmeralda" + plural(value) + "!");
+			
+			mostrarSaldo(player, uuid);
 		}
 	}
 	
+	//mostrar saldo do player
 	private static void mostrarSaldo(Player player, String uuid) {
 		int saldo = getSaldoPlayer(uuid);
 		player.sendMessage(ChatColor.GREEN + "Saldo: " + saldo + " esmeralda"+plural(saldo)+".");
 	}
 	
+	//adiciona valor no saldo
 	private static void credit(Player p, int value) {
 		String uuid = p.getUniqueId().toString();
 		Principal.banco.set(uuid, (int) getSaldoPlayer(uuid) + value);
 	}
 	
+	//reduz o valor do saldo
 	private static void debit(Player p, int value) {
 		String uuid = p.getUniqueId().toString();
 		Principal.banco.set(uuid, (int) getSaldoPlayer(uuid) - value);
 	}
 	
+	//pega o valor do saldo
 	private static int getSaldoPlayer(String uuid) {
 		return (int) Principal.banco.get(uuid);
 	}
 	
+	//define se será usado o plural
 	private static String plural(int value) {
 		String plural = "";
 		if (value != 1) {
@@ -181,7 +197,8 @@ public class Transations {
 		}
 		return plural;
 	}
-
+	
+	//traduz o slot para o valor desejado. sendo -1 tudo/maximo
 	private static int getValue(int slot) {
 		switch (slot) {
 		case 0:
@@ -205,7 +222,8 @@ public class Transations {
 		}
 		return 0;
 	}
-
+	
+	//conta a quantidade de itens em um inventario
 	private static int count(ItemStack[] contents, Material m) {
 		int i = 0;
 		for (ItemStack itemStack : contents) {
@@ -218,7 +236,8 @@ public class Transations {
 		}
 		return i;
 	}
-
+	
+	//conta a quantidade de itens que poderiam ser colocados em um inventario
 	private static int countAvaiable(ItemStack[] contents, Material m) {
 		int slots = 0;
 		for (int i = 0; i < 36; i++) {
@@ -232,7 +251,8 @@ public class Transations {
 		}
 		return slots;
 	}
-
+	
+	//remove itens do inventario
 	private static void remove(Player player, Material m, int quantity) {
 		ItemStack[] itens = player.getInventory().getContents();
 		if (quantity == -1) {
@@ -266,7 +286,8 @@ public class Transations {
 		player.getInventory().setContents(itens);
 		player.updateInventory();
 	}
-
+	
+	//adiciona itens ao inventario
 	private static void add(Player player, Material m, int quantidade) {
 		ItemStack[] itens = player.getInventory().getContents();
 
