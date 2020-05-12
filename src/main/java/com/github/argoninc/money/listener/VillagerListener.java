@@ -2,6 +2,7 @@ package com.github.argoninc.money.listener;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -43,7 +44,9 @@ public class VillagerListener implements Listener {
 				// método para mostrar uuid da entidade
 				if (entity.getType().equals(EntityType.VILLAGER) && player.isOp()
 						&& (boolean) Principal.config.get("showVillagerUUID")) {
-					System.out.println("Entidade: " + entityUUID);
+					
+					System.out.println("[Entidade] "+entityUUID);
+					player.sendMessage(ChatColor.RED+"[Entidade] "+entityUUID);
 				}
 
 				// startar gui do banco
@@ -70,7 +73,7 @@ public class VillagerListener implements Listener {
 					villager.setInvulnerable(true);
 					villager.setVillagerLevel(5);
 					villager.setProfession(Profession.valueOf(s.getPermissionKey()));
-					villager.setRecipes(ShopInventory.getRecipes(s, true));
+					villager.setRecipes(ShopInventory.getRecipes(s, player));
 					villager.setAI(false);
 					if(s.getName()!=null) {
 						villager.setCustomName(s.getName());

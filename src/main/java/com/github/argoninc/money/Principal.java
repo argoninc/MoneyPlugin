@@ -1,13 +1,12 @@
 package com.github.argoninc.money;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 
+import com.github.argoninc.job.user.Job;
+import com.github.argoninc.job.user.UserJob;
 import com.github.argoninc.money.command.Cooldown;
 import com.github.argoninc.money.listener.PlayerListener;
 import com.github.argoninc.money.listener.VillagerListener;
@@ -23,6 +22,11 @@ public class Principal extends JavaPlugin{
 	public static Shop[] shopList = null;
 	@Override
 	public void onEnable() {
+		//Job implement Init
+		Job.init();
+		UserJob.init();
+		
+		
 		banco = new DB("argoninc/money.json");
 		config = new DB("argoninc/money.cfg");
 		shop = new DB("argoninc/shop.cfg");

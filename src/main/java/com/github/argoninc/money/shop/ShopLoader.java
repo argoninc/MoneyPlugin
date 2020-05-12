@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.github.argoninc.job.user.Job;
 import com.github.argoninc.money.Principal;
 
 public class ShopLoader {
@@ -53,6 +54,9 @@ public class ShopLoader {
 				Enchant[] enchants = null;
 				int[] levels = null;
 				
+				Job[] canBuy = null;
+				Job[] bonusJob = null;
+ 				
 				JSONObject temp2 = (JSONObject) it.next();
 				
 				material = (String) getHas(temp2, "material");
@@ -63,6 +67,8 @@ public class ShopLoader {
 				custom_name = (String) getHas(temp2, "name");
 				buy = (boolean) getHas(temp2, "buy");
 				
+				
+				//enchant
 				ArrayList<Enchant> enchantsList = new ArrayList<Enchant>();
 				
 				JSONArray temp3 = (JSONArray) getHas(temp2, "enchants");
@@ -77,9 +83,38 @@ public class ShopLoader {
 					enchants = enchantsList.toArray(new Enchant[0]);
 				}
 				
+				
+				//bonusjob
+				ArrayList<Job> jobList = new ArrayList<Job>();
+				
+				temp3 = (JSONArray) getHas(temp2, "bonusJob");
+				if(temp3!=null) {
+					Iterator<Object> ite = temp3.iterator();
+					
+					while(ite.hasNext()) {
+						jobList.add(Job.getJobFromKey((String) ite.next()));
+					}
+					
+					bonusJob = jobList.toArray(new Job[0]);
+				}
+				
+				//canbuy
+				jobList = new ArrayList<Job>();
+				
+				temp3 = (JSONArray) getHas(temp2, "canBuy");
+				if(temp3!=null) {
+					Iterator<Object> ite = temp3.iterator();
+					
+					while(ite.hasNext()) {
+						jobList.add(Job.getJobFromKey((String) ite.next()));
+					}
+					
+					canBuy = jobList.toArray(new Job[0]);
+				}
+				
 				levels = convert(getArrayInt(temp2, "levels"));
 				
-				item = new Item(material, amount, enchants, custom_name, price, buy, price_bonus, amount_bonus);
+				item = new Item(material, amount, enchants, custom_name, price, buy, price_bonus, amount_bonus, bonusJob, canBuy);
 				
 				itemArray.add(item);
 			}

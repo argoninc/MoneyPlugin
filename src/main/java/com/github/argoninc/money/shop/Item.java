@@ -7,6 +7,8 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.argoninc.job.user.Job;
+
 public class Item {
 	private boolean buy;
 	private String material;
@@ -16,6 +18,9 @@ public class Item {
 	private int price;
 	private int price_bonus;
 	private String custom_name;
+	
+	private Job[] bonusJob;
+	private Job[] canBuy;
 	
 	private ItemStack is;
 	
@@ -30,6 +35,14 @@ public class Item {
 	
 	public int getPrice() {
 		return price;
+	}
+	
+	public Job[] getCanBuy() {
+		return canBuy;
+	}
+	
+	public Job[] getBonusJob() {
+		return bonusJob;
 	}
 	
 	public int getPriceBonus() {
@@ -56,7 +69,7 @@ public class Item {
 		return custom_name;
 	}
 	
-	public Item(String material, int amount, Enchant[] enchants, String custom_name, int price, boolean buy, int price_bonus, int amount_bonus) {
+	public Item(String material, int amount, Enchant[] enchants, String custom_name, int price, boolean buy, int price_bonus, int amount_bonus, Job[] bonusJob, Job[] canBuy) {
 		this.material = material;
 		this.amount = amount;
 		this.enchants = enchants;
@@ -65,6 +78,9 @@ public class Item {
 		this.buy = buy;
 		this.price_bonus = price_bonus;
 		this.amount_bonus = amount_bonus;
+		this.canBuy = canBuy;
+		this.bonusJob = bonusJob;
+		
 		
 		ItemStack i = new ItemStack(Material.getMaterial(material), amount);
 		

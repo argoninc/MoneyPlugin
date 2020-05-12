@@ -210,7 +210,7 @@ public class Transations {
 		case 3:
 			return 25;
 		case 4:
-			return 50;
+			return 64;
 		case 5:
 			return 100;
 		case 6:
